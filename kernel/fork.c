@@ -2508,7 +2508,6 @@ long _do_fork(unsigned long clone_flags,
 		return PTR_ERR(p);
 
 	cpumask_setall(&p->aug_cpus_allowed);
-	cpufreq_task_times_alloc(p);
 
 	/*
 	 * Do this prior waking up the new thread - the thread pointer
