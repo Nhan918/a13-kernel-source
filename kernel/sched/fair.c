@@ -129,12 +129,11 @@ unsigned int sysctl_sched_cfs_bandwidth_slice		= 5000UL;
 #endif
 
 /*
- * The margin used when comparing utilization with CPU capacity:
- * util * margin < capacity * 1024
+ * The margin used when comparing utilization with CPU capacity.
  *
  * (default: ~20%)
  */
-unsigned int capacity_margin				= 1280;
+#define fits_capacity(cap, max, margin)	((cap) * margin < (max) * 1024)
 
 static inline void update_load_add(struct load_weight *lw, unsigned long inc)
 {
@@ -3920,7 +3919,7 @@ done:
 
 static inline int task_fits_capacity(struct task_struct *p, long capacity)
 {
-	return capacity * 1024 > uclamp_task_util(p) * capacity_margin;
+	return fits_capacity(uclamp_task_util(p), capacity, margin);
 }
 
 static inline void update_misfit_status(struct task_struct *p, struct rq *rq)
@@ -5291,7 +5290,8 @@ static unsigned long capacity_of(int cpu);
 
 static inline bool cpu_overutilized(int cpu)
 {
-	return (capacity_of(cpu) * 1024) < (cpu_util(cpu) * capacity_margin);
+	return !fits_capacity((cpu_util(cpu) + delta), capacity_orig_of(cpu),
+			      sched_capacity_margin_up[cpu]);
 }
 
 static inline void update_overutilized_status(struct rq *rq)
@@ -7199,7 +7199,8 @@ static void select_cpu_candidates(struct sched_domain *sd, cpumask_t *cpus,
 			 * aligned with schedutil_cpu_util().
 			 */
 			util = uclamp_rq_util_with(cpu_rq(cpu), util, p);
-			if (cpu_cap * 1024 < util * capacity_margin)
+			if (!fits_capacity(util, cpu_cap,
+					   sched_capacity_margin_up[cpu]))
 				continue;
 
 			/*
