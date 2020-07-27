@@ -488,7 +488,6 @@ static void nf_ct_add_to_dying_list(struct nf_conn *ct)
 	}
 #endif
 	// SEC_PRODUCT_FEATURE_KNOX_SUPPORT_NPA }
-
 	/* add this conntrack to the (per cpu) dying list */
 	ct->cpu = smp_processor_id();
 	pcpu = per_cpu_ptr(nf_ct_net(ct)->ct.pcpu_lists, ct->cpu);
@@ -1340,7 +1339,6 @@ __nf_conntrack_alloc(struct net *net,
 	struct timespec open_timespec;
 #endif
 	// SEC_PRODUCT_FEATURE_KNOX_SUPPORT_NPA }
-
 	/* We don't want any race condition at early drop stage */
 	atomic_inc(&net->ct.count);
 
