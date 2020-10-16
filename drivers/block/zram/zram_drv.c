@@ -2922,7 +2922,7 @@ static int __zram_bvec_read(struct zram *zram, struct page *page, u32 index,
 	}
 
 	/* Should NEVER happen. BUG() if it does. */
-	if (unlikely(ret))
+	if (WARN_ON(ret))
 		handle_decomp_fail(zram->compressor, ret, index, src, size,
 				   NULL);
 
