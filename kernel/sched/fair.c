@@ -6368,6 +6368,8 @@ static int select_idle_core(struct task_struct *p, struct sched_domain *sd, int 
 
 		if (idle)
 			return core;
+
+		cpumask_andnot(cpus, cpus, cpu_smt_mask(core));
 	}
 
 	/*
