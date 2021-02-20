@@ -1383,6 +1383,13 @@ struct task_struct {
 #ifdef CONFIG_SEC_DEBUG_DTASK
 	struct sec_debug_wait		ssdbg_wait;
 #endif
+
+	struct {
+		struct work_struct work;
+		atomic_t running;
+		bool free_stack;
+	} async_free;
+
 	/* task is frozen/stopped (used by the cgroup freezer) */
 	ANDROID_KABI_USE(1, unsigned frozen:1);
 
