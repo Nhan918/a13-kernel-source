@@ -8225,7 +8225,7 @@ enum group_type {
 #define LBF_NEED_BREAK	0x02
 #define LBF_DST_PINNED  0x04
 #define LBF_SOME_PINNED	0x08
-#define LBF_ACTIVE_LB   0x40
+#define LBF_ACTIVE_LB   0x10
 
 struct lb_env {
 	struct sched_domain	*sd;
