@@ -8142,6 +8142,10 @@ int can_migrate_task(struct task_struct *p, struct lb_env *env)
 	if (throttled_lb_pair(task_group(p), env->src_cpu, env->dst_cpu))
 		return 0;
 
+	/* Disregard pcpu kthreads; they are where they need to be. */
+	if ((p->flags & PF_KTHREAD) && kthread_is_per_cpu(p))
+		return 0;
+
 	if (!cpumask_test_cpu(env->dst_cpu, &p->cpus_allowed)) {
 		int cpu;
 
@@ -9722,15 +9726,8 @@ static struct rq *find_busiest_queue(struct lb_env *env,
 		 * average load.
 		 */
 		if (env->sd->flags & SD_ASYM_CPUCAPACITY &&
-<<<<<<< HEAD
 		    capacity_of(env->dst_cpu) < capacity &&
 		    rq->nr_running == 1)
-=======
-		    !capacity_greater(capacity_of(env->dst_cpu), capacity) &&
-		    (rq->nr_running == 1 ||
-			 (rq->nr_running == 2 && task_util(rq->curr) <
-			  sched_small_task_threshold)))
->>>>>>> 25cf409fd2dd (UPSTREAM: sched/fair: Introduce a CPU capacity comparison helper)
 			continue;
 
 		wl = weighted_cpuload(rq);
