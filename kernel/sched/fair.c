@@ -135,6 +135,30 @@ unsigned int sysctl_sched_cfs_bandwidth_slice		= 5000UL;
  * (default: ~20%)
  */
 unsigned int capacity_margin				= 1280;
+<<<<<<< HEAD
+=======
+unsigned int sched_capacity_margin_up[CPU_NR] = {
+			[0 ... CPU_NR-1] = 1078}; /* ~5% margin */
+unsigned int sched_capacity_margin_down[CPU_NR] = {
+			[0 ... CPU_NR-1] = 1205}; /* ~15% margin */
+unsigned int sched_capacity_margin_up_boosted[CPU_NR] = {
+	3658, 3658, 3658, 3658, 3658, 3658, 1078, 1024
+}; /* 72% margin for small, 5% for big, 0% for big+ */
+unsigned int sched_capacity_margin_down_boosted[CPU_NR] = {
+	3658, 3658, 3658, 3658, 3658, 3658, 3658, 3658
+}; /* not used for small cores, 72% margin for big, 72% margin for big+ */
+
+#ifdef CONFIG_SCHED_WALT
+/* 1ms default for 20ms window size scaled to 1024 */
+unsigned int sysctl_sched_min_task_util_for_boost = 51;
+/* 0.68ms default for 20ms window size scaled to 1024 */
+unsigned int sysctl_sched_min_task_util_for_colocation = 35;
+__read_mostly unsigned int sysctl_sched_prefer_spread;
+unsigned int sysctl_walt_rtg_cfs_boost_prio = 99; /* disabled by default */
+unsigned int sysctl_walt_low_latency_task_threshold; /* disabled by default */
+__read_mostly unsigned int sysctl_sched_force_lb_enable = 1;
+#endif
+>>>>>>> 653d3325cf6a (Revert "sched/fair: Don't let tasks slip away from gold to silver cluster")
 
 static inline void update_load_add(struct load_weight *lw, unsigned long inc)
 {
@@ -9715,7 +9739,7 @@ static struct rq *find_busiest_queue(struct lb_env *env,
 		 * average load.
 		 */
 		if (env->sd->flags & SD_ASYM_CPUCAPACITY &&
-		    capacity_of(env->dst_cpu) < capacity &&
+		    !capacity_greater(capacity_of(env->dst_cpu), capacity) &&
 		    rq->nr_running == 1)
 			continue;
 
