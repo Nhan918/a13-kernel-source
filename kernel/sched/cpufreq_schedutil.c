@@ -918,6 +918,7 @@ struct cpufreq_governor *cpufreq_default_governor(void)
 }
 #endif
 
+<<<<<<< HEAD
 static int __init sugov_register(void)
 {
 	return cpufreq_register_governor(&schedutil_gov);
@@ -956,3 +957,6 @@ void sched_cpufreq_governor_change(struct cpufreq_policy *policy,
 
 }
 #endif
+=======
+cpufreq_governor_init(schedutil_gov);
+>>>>>>> ec0626f5ccc1 (UPSTREAM: cpufreq: Register governors at core_initcall)
