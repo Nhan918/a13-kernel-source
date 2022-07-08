@@ -1790,6 +1790,8 @@ static struct task_struct *pick_highest_pushable_task(struct rq *rq, int cpu)
 
 DEFINE_PER_CPU(cpumask_var_t, local_cpu_mask);
 
+extern const_debug unsigned int sysctl_sched_cstate_aware;
+
 static int find_lowest_rq(struct task_struct *task)
 {
 	struct sched_domain *sd;
