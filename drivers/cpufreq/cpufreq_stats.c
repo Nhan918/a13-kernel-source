@@ -87,8 +87,8 @@ static ssize_t show_trans_table(struct cpufreq_policy *policy, char *buf)
 	if (policy->fast_switch_enabled)
 		return 0;
 
-	len += snprintf(buf + len, PAGE_SIZE - len, "   From  :    To\n");
-	len += snprintf(buf + len, PAGE_SIZE - len, "         : ");
+	len += scnprintf(buf + len, PAGE_SIZE - len, "   From  :    To\n");
+	len += scnprintf(buf + len, PAGE_SIZE - len, "         : ");
 	for (i = 0; i < stats->state_num; i++) {
 		if (len >= PAGE_SIZE)
 			break;
