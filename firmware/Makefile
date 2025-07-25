@@ -36,6 +36,9 @@ fw-external-$(CONFIG_KEYBOARD_A96T396) += tk_abov/a96t396_gshhwifi.bin
 
 fw-external-$(CONFIG_SHUB) += sensorhub/shub_nacho_bl.bin sensorhub/shub_nacho_a13.bin sensorhub/shub_nacho_gthhwifi.bin sensorhub/shub_nacho_m13.bin sensorhub/shub_nacho_a04s.bin sensorhub/shub_nacho_a14.bin
 
+quiet_cmd_ihex  = IHEX    $@
+      cmd_ihex  = $(OBJCOPY) -Iihex -Obinary $< $@
+
 quiet_cmd_fwbin = MK_FW   $@
       cmd_fwbin = FWNAME="$(patsubst firmware/%.gen.S,%,$@)";		     \
 		  FWSTR="$(subst /,_,$(subst .,_,$(subst -,_,$(patsubst	     \
@@ -70,10 +73,15 @@ wordsize_deps := $(wildcard include/config/64bit.h include/config/32bit.h \
 
 $(patsubst %,$(obj)/%.gen.S, $(fw-external-y)): %: $(wordsize_deps) \
 		include/config/extra/firmware/dir.h
-	$(call cmd,fwbin,$(fwabs)/$(patsubst $(obj)/%.gen.S,%,$@))
+	$(call cmd,fwbin,$(patsubst %.gen.S,%,$@))
 
 # The .o files depend on the binaries directly; the .S files don't.
 $(patsubst %,$(obj)/%.gen.o, $(fw-external-y)): $(obj)/%.gen.o: $(fwdir)/%
+
+# .ihex is used just as a simple way to hold binary files in a source tree
+# where binaries are frowned upon. They are directly converted with objcopy.
+$(obj)/%: $(obj)/%.ihex
+	$(call cmd,ihex)
 
 obj-y				 += $(patsubst %,%.gen.o, $(fw-external-y))
 
