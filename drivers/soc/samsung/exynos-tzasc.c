@@ -180,9 +180,6 @@ static irqreturn_t exynos_tzasc_irq_handler_thread(int irq, void *dev_id)
 
 	pr_info("====================================================\n");
 
-#ifdef CONFIG_EXYNOS_TZASC_ILLEGAL_ACCESS_PANIC
-	BUG();
-#endif
 	return IRQ_HANDLED;
 }
 
