@@ -239,7 +239,7 @@ static const struct file_operations abox_dbg_fops_valid = {
 static ssize_t abox_dbg_read_clear(struct file *file, char __user *user_buf,
 				   size_t count, loff_t *ppos)
 {
-	int idx = (int)file->private_data;
+	uintptr_t idx = (uintptr_t)file->private_data;
 
 	abox_dbg_clear_valid(idx);
 
@@ -250,7 +250,7 @@ static ssize_t abox_dbg_write_clear(struct file *file,
 				    const char __user *user_buf,
 				    size_t count, loff_t *ppos)
 {
-	int idx = (int)file->private_data;
+	uintptr_t idx = (uintptr_t)file->private_data;
 
 	abox_dbg_clear_valid(idx);
 
