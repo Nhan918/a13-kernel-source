@@ -283,7 +283,7 @@ static void dbg_snapshot_dump_one_task_info(struct task_struct *tsk, bool is_mai
 
 	if (tsk->state == TASK_RUNNING ||
 	    tsk->state == TASK_WAKING ||
-	    task_contributes_to_load(tsk)) {
+	    (tsk->state & TASK_UNINTERRUPTIBLE)) {
 		secdbg_dtsk_print_info(tsk, true);
 
 		if (tsk->on_cpu && tsk->on_rq &&
