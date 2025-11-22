@@ -182,7 +182,7 @@ unsigned long ml_cpu_util_ratio(int cpu, int sse)
 					/ capacity_cpu(cpu, sse);
 }
 
-#define UTIL_AVG_UNCHANGED 0x1
+#define UTIL_AVG_UNCHANGED 0x80000000
 
 /*
  * ml_cpu_util_without - cpu utilization without waking task
