@@ -53,15 +53,12 @@ enum zram_pageflags {
 	ZRAM_UNDER_WB,	/* page is under writeback */
 	ZRAM_HUGE,	/* Incompressible page */
 	ZRAM_IDLE,	/* not accessed page since last idle marking */
-<<<<<<< HEAD
 	ZRAM_EXPIRE,
 	ZRAM_READ_BDEV,
 	ZRAM_PPR,
 	ZRAM_UNDER_PPR,
 	ZRAM_LRU,
-=======
 	ZRAM_DEDUPED,	/* Deduplicated with existing entry */
->>>>>>> 17f4e80ff95f (zram: show deduped status in debugfs)
 
 	__NR_ZRAM_PAGEFLAGS,
 };
