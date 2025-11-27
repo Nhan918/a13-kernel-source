@@ -877,7 +877,7 @@ int pm_qos_update_target(struct pm_qos_constraints *c, struct plist_node *node,
 	trace_pm_qos_update_target(action, prev_value, curr_value);
 
 	if (c->type == PM_QOS_FORCE_MAX) {
-		blocking_notifier_call_chain(c->notifiers,
+		srcu_notifier_call_chain(c->notifiers,
 					     (unsigned long)curr_value,
 					     NULL);
 		mutex_unlock(&c->mlock);
