@@ -4658,7 +4658,6 @@ retry:
 		}
 		ptr += trsize;
 
-		trace_binder_transaction_received(t);
 		binder_stat_br(proc, thread, cmd);
 		binder_debug(BINDER_DEBUG_TRANSACTION,
 			     "%d:%d(%s:%s) %s %d %d:%d(%s:%s), cmd %d size %zd-%zd ptr %016llx-%016llx\n",
