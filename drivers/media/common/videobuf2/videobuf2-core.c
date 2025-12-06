@@ -976,7 +976,7 @@ static void vb2_process_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state
 		}
 
 		/* Inform any processes that may be waiting for buffers */
-		wake_up_sync(&q->done_wq);
+		wake_up(&q->done_wq);
 		break;
 	}
 
