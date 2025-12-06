@@ -1,5 +1,7 @@
 #include "lz4accel.h"
 #include <asm/cputype.h>
+#include <linux/smp.h>
+#include <linux/threads.h>
 
 #ifdef CONFIG_CFI_CLANG
 static inline int
