@@ -1,5 +1,6 @@
 #include <linux/types.h>
 #include <asm/simd.h>
+#include <linux/smp.h>
 
 #define LZ4_FAST_MARGIN                (128)
 
