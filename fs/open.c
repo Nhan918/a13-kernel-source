@@ -34,10 +34,6 @@
 
 #include "internal.h"
 
-#ifdef CONFIG_KSU
-#include <ksu_hook.h>
-#endif
-
 #ifdef CONFIG_SECURITY_DEFEX
 #include <linux/defex.h>
 #endif
@@ -360,10 +356,6 @@ long do_faccessat(int dfd, const char __user *filename, int mode)
 	struct inode *inode;
 	int res;
 	unsigned int lookup_flags = LOOKUP_FOLLOW;
-
-#ifdef CONFIG_KSU
-	ksu_handle_faccessat(&dfd, &filename, &mode, NULL);
-#endif	
 
 	if (mode & ~S_IRWXO)	/* where's F_OK, X_OK, W_OK, R_OK? */
 		return -EINVAL;
